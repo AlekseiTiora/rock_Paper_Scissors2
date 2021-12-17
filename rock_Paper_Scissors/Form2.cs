@@ -13,22 +13,35 @@ namespace rock_Paper_Scissors
 {
     public partial class Form2 : Form
     {
-        Button btn;
-        Button btn2;
-        Button btn3;
+
+        static string[] picturesplayer = { "kivi.png", "kaarid.png", "paber.png" };
+        static string[] picturesbot = { "kivi.png", "kaarid.png", "paber.png" };
+        public Random rnd = new Random();
+
         TextBox txt;
         Label lbl_p;
         Label lbl_bot;
-        RadioButton rb;
-        RadioButton rb2;
-        RadioButton rb3;
+        Label lbl2;
+        Label lbl3;
         PictureBox pb;
+        PictureBox pb1;
+        RadioButton rdb;
+        RadioButton rdb2;
+        RadioButton rdb3;
+        Button btn2;
+
         public int numb;
         public Form2()
         {
             this.Size = new Size(500, 500);
             this.Text = "Rock_Paper_Scissors";
             this.BackgroundImage = new Bitmap(@"../../img/fon.jpg"); //картина фона формы
+
+            MainMenu menu = new MainMenu();
+            MenuItem menuFile = new MenuItem("Настройки");
+            menuFile.MenuItems.Add("Teema", new EventHandler(menuFile_Tema_Select));
+            menu.MenuItems.Add(menuFile);
+            this.Menu = menu;
 
             Label lbl = new Label();
             lbl.Text = "kirjuta oma nickName:";
@@ -47,7 +60,7 @@ namespace rock_Paper_Scissors
             btn.Click += Btn_Click;
 
             lbl_p = new Label();
-            lbl_p.Location = new Point(240, 70);
+            lbl_p.Location = new Point(170, 70);
             lbl_p.Font = new Font("Arial", 22, FontStyle.Bold);
             lbl_p.BackColor = Color.White;
             lbl_p.ForeColor = Color.Black;
@@ -61,20 +74,18 @@ namespace rock_Paper_Scissors
             lbl_bot.BackColor = Color.White;
             lbl_bot.ForeColor = Color.Black;
 
-            rb = new RadioButton();
-            rb.Image = Image.FromFile(@"../../img/kivi.png");
-            rb.Location = new Point(50,120);
-            rb.Size = new Size(200, 200);
+            lbl2 = new Label();
+            lbl2.Text = "0";
+            lbl2.Size = new Size(50, 50);//Size
+            lbl2.Location = new Point(530, 140); //x,y
 
-            rb2 = new RadioButton();
-            rb2.Image = Image.FromFile(@"../../img/paber.png");
-            rb2.Location = new Point(50, 350);
-            rb2.Size = new Size(200, 200);
 
-            rb3 = new RadioButton();
-            rb3.Image = Image.FromFile(@"../../img/kaarid.png");
-            rb3.Location = new Point(50, 570);
-            rb3.Size = new Size(200, 200);
+            lbl3 = new Label();
+            lbl3.Text = "0";
+            lbl3.Size = new Size(50, 50);//Size
+            lbl3.Location = new Point(170, 140); //x,y
+
+
 
             pb = new PictureBox();
             pb.ImageLocation = "../../img/vopros.jpg";
@@ -82,157 +93,180 @@ namespace rock_Paper_Scissors
             pb.Location = new Point(500, 200);
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
 
+            pb1 = new PictureBox();
+            pb1.ImageLocation = "../../img/vopros.jpg";
+            pb1.Size = new Size(200, 200);
+            pb1.Location = new Point(100, 200);
+            pb1.SizeMode = PictureBoxSizeMode.StretchImage;
+
             btn2 = new Button();
-            btn2.Location = new Point(600, 500);
-            btn2.Size = new Size(100, 50);
-            btn2.Text = "Alusta";
-            btn2.MouseClick += Btn2_MouseClick; ;
+            btn2.Text = "Start";//text
+            btn2.Location = new Point(300, 500);//x,y
+            btn2.Height = 60;
+            btn2.Width = 180;
+            btn2.Click += Btn2_Click;
 
-            List<string> list = new List<string>();
+            rdb = new RadioButton();
+            rdb.Height = 30;
+            rdb.Width = 130;
+            rdb.Location = new Point(70, 500);
+            rdb.Text = "Kivi";
+            rdb.Click += Rdb_Click1;
 
-            list.Add("kivi.png");
-            list.Add("paber.png");
-            list.Add("kaarid.png");
+            //RadioButton2
+            rdb2 = new RadioButton();
+            rdb2.Height = 30;
+            rdb2.Width = 130;
+            rdb2.Location = new Point(70, 550);
+            rdb2.Text = "Kärid";
+            rdb2.Click += Rdb2_Click1;
 
-            Random rnd = new Random();
+            //RadioButton3
+            rdb3 = new RadioButton();
+            rdb3.Height = 30;
+            rdb3.Width = 130;
+            rdb3.Location = new Point(70, 600);
+            rdb3.Text = "Paber";
+            rdb3.Click += Rdb3_Click1;
 
-            int num = rnd.Next(3);
-            
-            btn3 = new Button();
-            btn3.Location = new Point(300, 500);
-            btn3.Size = new Size(100, 50);
-            btn3.MouseClick += Btn3_MouseClick;
-            btn3.Text = "Bot liigub";
+
+
+
 
 
             this.Controls.Add(lbl);
             this.Controls.Add(txt);
             this.Controls.Add(btn);
+
+        }
+
+
+        int cshetplayer = 0;
+        int cshetbot = 0;
+        private void Btn2_Click(object sender, EventArgs e)
+        {
+            int randombot = rnd.Next(1, 4);
+
+            if (randombot == 1)
+            {
+
+                pb.Image = Image.FromFile(@"..\..\img\" + picturesbot[0]);
+
+            }
+            else if (randombot == 2)
+            {
+
+                pb.Image = Image.FromFile(@"..\..\img\" + picturesbot[1]);
+            }
+            else if (randombot == 3)
+            {
+
+                pb.Image = Image.FromFile(@"..\..\img\" + picturesbot[2]);
+            }
+
+
+            if (rdb.Checked == true && randombot == 2 || rdb2.Checked == true && randombot == 3 || rdb3.Checked == true && randombot == 1)
+            {
+                cshetplayer++;
+                string podcet = cshetplayer.ToString();
+
+                lbl3.Text = "";
+                lbl3.Text = podcet;
+                if (cshetplayer == 3)
+                {
+
+
+
+
+
+                    var answer = MessageBox.Show("Sina" + " võitis . Restart?", "messagebox", MessageBoxButtons.YesNo);
+                    if (answer == DialogResult.Yes)
+                    {
+                        Form2 form2 = new Form2();
+                        form2.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        Form1 form1 = new Form1();
+                        form1.Show();
+                        this.Hide();
+                    }
+
+                }
+
+            }
+            else if (randombot == 1 && rdb2.Checked == true || randombot == 2 && rdb3.Checked == true || randombot == 3 && rdb.Checked == true)
+            {
+                cshetbot++;
+                string podcetbot = picturesbot.ToString();
+
+                lbl2.Text = "";
+                lbl2.Text = podcetbot;
+                if (cshetbot == 3)
+                {
+
+                    var answer = MessageBox.Show("Bot võitis . Restart?", "messagebox", MessageBoxButtons.YesNo);
+                    if (answer == DialogResult.Yes)
+                    {
+                        Form2 form2 = new Form2();
+                        form2.Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        Form1 form1 = new Form1();
+                        form1.Show();
+                        this.Hide();
+                    }
+
+
+                }
+            }
+        }
+        
+
+        private void Rdb3_Click1(object sender, EventArgs e)
+        {
+            pb1.Image = Image.FromFile(@"..\..\img\" + picturesplayer[2]);
+        }
+
+        private void Rdb2_Click1(object sender, EventArgs e)
+        {
+           pb1.Image = Image.FromFile(@"..\..\img\" + picturesplayer[1]);
+        }
+
+        private void Rdb_Click1(object sender, EventArgs e)
+        {
+           pb1.Image = Image.FromFile(@"..\..\img\" + picturesplayer[0]);
+        }
+
+        int scetcik = 0;
+        private void menuFile_Tema_Select(object sender, EventArgs e)
+        {
+            scetcik++;
+            if (scetcik == 1)
+            {
+                this.BackgroundImage = new Bitmap(@"../../img/fon2.png");
+
+            }
+            else if (scetcik == 2)
+            {
+                this.BackgroundImage = new Bitmap(@"../../img/fon.jpg");
+                scetcik = 0;
+            }
         }
 
         private void Btn3_MouseClick(object sender, MouseEventArgs e)
         {
-            pb.SizeMode = PictureBoxSizeMode.AutoSize;
-            List<string> lists = new List<string>();
 
-            lists.Add("kivi.png");
-            lists.Add("paber.png");
-            lists.Add("kaarid.png");
-            Random rand = new Random();
-
-            numb = rand.Next(3);
-            pb.ImageLocation = ($"../../images/{lists[numb]}");
-            btn2.Hide();
-            if (rb.Checked)
-            {
-                rb2.Hide();
-                rb3.Hide();
-            }
-            else if (rb2.Checked)
-            {
-                rb.Hide();
-                rb3.Hide();
-            }
-            else if (rb3.Checked)
-            {
-                rb2.Hide();
-                rb.Hide();
-            }
 
         }
 
         private void Btn2_MouseClick(object sender, MouseEventArgs e)
         {
-            if (rb.Checked == true && numb == 1 || rb2.Checked == true && numb == 2 || rb3.Checked == true && numb == 0)
-            {
-
-                var answer = MessageBox.Show(
-                "Sina võitis " + numb.ToString(),
-                "Sõnum",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                if (answer == DialogResult.Yes)
-                {
-                    Form2 op = new Form2();
-                    op.Show();
-                    op.WindowState = FormWindowState.Minimized;
-                    op.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-                else
-                {
-                    Form1 fp = new Form1();
-                    fp.Show();
-                    fp.WindowState = FormWindowState.Minimized;
-                    fp.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-
-
-            }
-            else if (rb.Checked == true && numb == 0 || rb2.Checked == true && numb == 1 || rb3.Checked == true && numb == 2)
-            {
-                var answer = MessageBox.Show(
-                "Ничья" + numb.ToString(),
-                "Sõnum",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                if (answer == DialogResult.Yes)
-                {
-                    Form2 op = new Form2();
-                    op.Show();
-                    op.WindowState = FormWindowState.Minimized;
-                    op.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-                else
-                {
-                    Form1 fp = new Form1();
-                    fp.Show();
-                    fp.WindowState = FormWindowState.Minimized;
-                    fp.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-
-            }
-            else
-            {
-                var answer = MessageBox.Show(
-                "Sa kaotasid, bot võitis",
-                "Sõnum",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Information,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly);
-                if (answer == DialogResult.Yes)
-                {
-                    Form2 op = new Form2();
-                    op.Show();
-                    op.WindowState = FormWindowState.Minimized;
-                    op.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-                else
-                {
-                    Form1 fp = new Form1();
-                    fp.Show();
-                    fp.WindowState = FormWindowState.Minimized;
-                    fp.WindowState = FormWindowState.Normal;
-                    this.Hide();
-
-                }
-
-
-            }
+         
+            
         }
 
 
@@ -275,12 +309,15 @@ namespace rock_Paper_Scissors
 
             this.Controls.Add(lbl_p);
             this.Controls.Add(lbl_bot);
-            this.Controls.Add(rb);
-            this.Controls.Add(rb2);
-            this.Controls.Add(rb3);
             this.Controls.Add(pb);
-            this.Controls.Add(btn3);
+            this.Controls.Add(pb1);
             this.Controls.Add(btn2);
+            this.Controls.Add(rdb);
+            this.Controls.Add(rdb2);
+            this.Controls.Add(rdb3);
+            
+
+
 
 
         }

@@ -32,17 +32,12 @@ namespace rock_Paper_Scissors
 
             btn = new Button();
             btn.BackColor = Color.White;
-            btn.Text = "Play with bot";
-            btn.Location = new Point(Top = 250, 120);
-            btn.Size = new Size(100, 30);
+            btn.Text = "mängi botiga ";
+            btn.Location = new Point(Top = 380, 80);
+            btn.Size = new Size(100,100);
             btn.Click += Btn_Click;
 
-            btn2 = new Button();
-            btn2.BackColor = Color.White;
-            btn2.Text = "Two player";
-            btn2.Location = new Point(Top = 490, 120);
-            btn2.Size = new Size(100, 30);
-            btn2.Click += Btn2_Click;
+
 
             btn3 = new Button();
             btn3.BackColor = Color.White;
@@ -66,7 +61,7 @@ namespace rock_Paper_Scissors
 
             this.Controls.Add(pb);
             this.Controls.Add(btn3);
-            this.Controls.Add(btn2);
+
             this.Controls.Add(btn);
         }
 
